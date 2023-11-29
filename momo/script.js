@@ -196,9 +196,11 @@ async function loadGeneralData()
 {
     const minted = await contract.methods.currentMintedToken().call();
     const max = await contract.methods.maxMintedToken().call();
+    const mintPrice = await contract.methods.mintPrice().call();
     
     $('.mint_available_label').html(minted+"/"+max);
     $('.mint-modal-button').toggleClass("btn-disabled", minted == max);
+    $('.mint-price').html(mintPrice / BigInt(1000000));
 }
 
 /* contract calls */
