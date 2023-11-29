@@ -1,0 +1,126 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=devide-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.6.0/dist/full.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.2.2/web3.min.js" integrity="sha512-YD0p/mrfISfNjG4WS/8Dx1h6hZx0/IgCFJfQR8lSXf/y29Jy+JcZj1s65/Ar22xBwvK8xe1u1BQ/w2E2Edr22Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
+    <script src="./script.js"></script>
+  </head>
+  <body>
+    <div class="navbar bg-base-100" >
+        <div class="flex-1">
+          <a class="btn btn-ghost text-xl" href="./">MOMO モモ</a>
+        </div>
+        <div class="flex-none">
+          <button class="btn connect-button">
+            CONNECT
+            <img class="ml-2" width="16" src="./img/blockchain.svg" />
+          </button>
+          <button class="btn address-button hidden address-button">
+            <p class="wallet-address truncate">0x</p>
+            <img class="ml-2" width="16" src="./img/blockchain.svg" />
+          </button>
+        </div>
+    </div>
+    <div class="hero min-h-screen bg-base-200D">
+      <div class="hero-content flex-col lg:flex-row-reverse">
+        <img src="./img/reference.jpg" class="max-w-sm rounded-lg shadow-2xl" />
+        <div>
+          <h1 class="text-5xl font-bold">Momo モモ!</h1>
+          <p class="py-6">Explore the life of Momo in different NFT images.
+            <br/>Each NFT is unique and they will listed slowly!
+            <br/>You can mint, buy and sell Momo's here freely!
+            <br/><br/>Also one of the NFTs has a great surprise 💸!
+          </p>
+          <label for="mint_modal" class="btn mint-modal-button">
+            Mint  <p class="mint_available_label pl-2">(?/?)</p>
+          </label>
+
+          <label for="sell_modal" class="btn">
+            Sell
+          </label>
+
+          <button class="btn btn-secondary contract-button">
+            <img width="16" src="./img/blockchain.svg" />
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-center w-full mt-10 mb-10 card-list hidden">
+      <div class="flex justify-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-screen-lg gap-5">
+        <div class="card bg-base-100 shadow-xl token-card">
+          <figure>
+            <img class="token-image" src="./img/nfts/1.jpg" alt="Shoes" />
+          </figure>
+          <div class="card-body">
+            <div class="card-actions justify-end">
+              <button class="btn btn-ghost text-2xl absolute left-5 token-link">#1</button>
+              <button class="btn right-0 btn-disabled btn-outline card-unminted-button">Unminted</button>
+              <button class="btn right-0 btn-disabled hidden card-unlisted-button">Unlisted</button>
+              <button class="btn right-0 hidden card-buy-button">
+                <p>Buy 1000</p>
+                <img class="ml-2" width="16" src="./img/usdt.svg" />
+              </button>
+              <button class="btn btn-error right-0 hidden card-cancel-button">
+                <p>Cancel order</p>
+              </button>
+            </div>
+          </div>
+        </div>        
+      </div>
+    </div>
+    <div class="hero min-h-screen bg-base-200">
+      <div class="hero-content flex-col lg:flex-row-reverse">
+        <img src="./img/artist.jpg" class="max-w-sm rounded-lg shadow-2xl" />
+        <div>
+          <h1 class="text-5xl font-bold">S.K. 白石好美</h1>
+          <p class="py-6 max-w-[300px]">
+            Discover Shiraishi Koumi's cutting-edge NFT art—vibrant, intricate, and rooted in Japanese aesthetics. Each piece weaves a unique tale, bridging tradition with technology.
+            <br/><br/>Shiraishi Koumi invites collectors to witness the captivating fusion of heritage and pixels, leaving an indelible mark on the evolving landscape of digital art.
+          </p>
+        </div>
+      </div>
+    </div>
+    <input type="checkbox" id="mint_modal" class="modal-toggle" />
+    <div class="modal" role="dialog">
+      <div class="modal-box max-w-[300px]">
+        <h3 class="font-bold text-lg">Mint NFTs!</h3>
+        <div class="form-control w-full max-w-xs mt-5 mb-5">
+          <input id="mint_amount" type="number" placeholder="Write the ammount to mint" class="input input-bordered w-full max-w-xs" />
+        </div>
+        <div class="modal-action">
+          <label for="mint_modal" class="btn">Close!</label>
+          <button class="btn btn-primary mint-button">
+            <p>Mint </p>
+            <img class="ml-2" width="16" src="./img/usdt.svg" />
+          </button>
+        </div>
+      </div>
+    </div>
+    <input type="checkbox" id="sell_modal" class="modal-toggle" />
+    <div class="modal" role="dialog">
+      <div class="modal-box max-w-[350px]">
+        <h3 class="font-bold text-lg">Sell NFTs order!</h3>
+        <div class="form-control w-full max-w-xs mt-5 mb-5">
+          <input id="sell_id" type="number" placeholder="NFT id e.x: 1" class="input input-bordered w-fullmax-w-xs mb-5" />
+          <input id="sell_price" type="number" placeholder="USDT price" class="input input-bordered w-full max-w-xs" />
+        </div>
+        <div class="modal-action">
+          <label for="sell_modal" class="btn">Close</label>
+          <button class="btn btn-primary sell-button">
+            <p>Sell </p>
+            <img class="ml-2" width="16" src="./img/usdt.svg" />
+          </button>
+        </div>
+      </div>
+    </div>
+    <footer class="footer footer-center p-4 bg-base-300 text-base-content">
+      <aside>
+        <p>Crafted with pixels, powered by passion. 🖌️🔗</p>
+      </aside>
+    </footer>
+  </body>
+</html>
