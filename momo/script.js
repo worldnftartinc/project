@@ -126,12 +126,12 @@ function refreshWalletAddress()
 
 function setConnectButtonActive(active)
 {
-    $(".connect-button").toggleClass("hidden", active);
+    $(".connect-button").toggleClass("hidden", active == false);
 }
 
 function setAddressButtonActive(active)
 {
-    $(".address-button").toggleClass("hidden", active);
+    $(".address-button").toggleClass("hidden", active == false);
 }
 
 async function loadTokensItems()
