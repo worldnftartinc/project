@@ -239,7 +239,16 @@ async function mintAction( amount )
         {
             const allowanceResult = await usdtContract.methods.approve(CONTRACT, payment - currentAllowance).send({from:address});
         }
-        const result = await contract.methods.mint(address, amount).send({from:address});
+
+        const gasPrice = await web3.eth.getGasPrice(); // Fetch the current gas price dynamically
+        const gasLimit = await contract.methods.mint(address, amount).estimateGas(); // Estimate gas limit
+
+        const result = await contract.methods.mint(address, amount).send({
+            from:address,
+            gasPrice: gasPrice, // Set the dynamic gas price
+            gas: gasLimit + 100000, // Adding extra gas for safety margin
+        
+        });
         console.log(result);
         return result;
     }
@@ -259,7 +268,16 @@ async function buyAction( id, price )
         {
             const allowanceResult = await usdtContract.methods.approve(CONTRACT, price - currentAllowance).send({from:address});
         }
-        const result = await contract.methods.executeOrder(BigInt(id)).send({from:address});
+
+        
+        const gasPrice = await web3.eth.getGasPrice(); // Fetch the current gas price dynamically
+        const gasLimit = await contract.methods.mint(address, amount).estimateGas(); // Estimate gas limit
+
+        const result = await contract.methods.executeOrder(BigInt(id)).send({
+            from:address,
+            gasPrice: gasPrice, // Set the dynamic gas price
+            gas: gasLimit + 100000, // Adding extra gas for safety margin
+        });
         console.log(result);
         return result;
     }
@@ -275,7 +293,14 @@ async function sellAction( id, price )
 {
     try
     {
-        const result = await contract.methods.createOrder(id, price).send({from:address});
+        const gasPrice = await web3.eth.getGasPrice(); // Fetch the current gas price dynamically
+        const gasLimit = await contract.methods.mint(address, amount).estimateGas(); // Estimate gas limit
+
+        const result = await contract.methods.createOrder(id, price).send({
+            from:address,
+            gasPrice: gasPrice, // Set the dynamic gas price
+            gas: gasLimit + 100000, // Adding extra gas for safety margin
+        });
         console.log(result);
         return result;
     }
