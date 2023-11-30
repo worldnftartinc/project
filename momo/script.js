@@ -241,7 +241,7 @@ async function mintAction( amount )
         }
 
         const gasPrice = await window.web3.eth.getGasPrice(); // Fetch the current gas price dynamically
-        const gasLimit = await contract.methods.mint(address, amount).estimateGas(); // Estimate gas limit
+        const gasLimit = await contract.methods.mint(address, amount).estimateGas({from:address}); // Estimate gas limit
 
         const result = await contract.methods.mint(address, amount).send({
             from:address,
@@ -271,7 +271,7 @@ async function buyAction( id, price )
 
         
         const gasPrice = await window.web3.eth.getGasPrice(); // Fetch the current gas price dynamically
-        const gasLimit = await contract.methods.mint(address, amount).estimateGas(); // Estimate gas limit
+        const gasLimit = await contract.methods.executeOrder(BigInt(id)).estimateGas({from:address}); // Estimate gas limit
 
         const result = await contract.methods.executeOrder(BigInt(id)).send({
             from:address,
@@ -294,7 +294,7 @@ async function sellAction( id, price )
     try
     {
         const gasPrice = await window.web3.eth.getGasPrice(); // Fetch the current gas price dynamically
-        const gasLimit = await contract.methods.mint(address, amount).estimateGas(); // Estimate gas limit
+        const gasLimit = await contract.methods.createOrder(id, price).estimateGas({from:address}); // Estimate gas limit
 
         const result = await contract.methods.createOrder(id, price).send({
             from:address,
@@ -315,7 +315,13 @@ async function cancelAction( id )
 {
     try
     {
-        const result = await contract.methods.cancelOrder(id).send({from:address});
+        const gasPrice = await window.web3.eth.getGasPrice(); // Fetch the current gas price dynamically
+        const gasLimit = await contract.methods.cancelOrder(id).estimateGas({from:address}); // Estimate gas limit
+        const result = await contract.methods.cancelOrder(id).send({
+            from:address,
+            gasPrice: gasPrice, // Set the dynamic gas price
+            gas: gasLimit + 100000, // Adding extra gas for safety margin
+        });
         console.log(result);
         return result;
     }
