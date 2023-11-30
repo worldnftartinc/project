@@ -246,7 +246,7 @@ async function mintAction( amount )
         const result = await contract.methods.mint(address, amount).send({
             from:address,
             gasPrice: gasPrice, // Set the dynamic gas price
-            gas: gasLimit + 100000, // Adding extra gas for safety margin
+            gas: gasLimit + BigInt(100000), // Adding extra gas for safety margin
         
         });
         console.log(result);
@@ -276,7 +276,7 @@ async function buyAction( id, price )
         const result = await contract.methods.executeOrder(BigInt(id)).send({
             from:address,
             gasPrice: gasPrice, // Set the dynamic gas price
-            gas: gasLimit + 100000, // Adding extra gas for safety margin
+            gas: gasLimit + BigInt(100000), // Adding extra gas for safety margin
         });
         console.log(result);
         return result;
@@ -299,7 +299,7 @@ async function sellAction( id, price )
         const result = await contract.methods.createOrder(id, price).send({
             from:address,
             gasPrice: gasPrice, // Set the dynamic gas price
-            gas: gasLimit + 100000, // Adding extra gas for safety margin
+            gas: gasLimit + BigInt(100000), // Adding extra gas for safety margin
         });
         console.log(result);
         return result;
@@ -320,7 +320,7 @@ async function cancelAction( id )
         const result = await contract.methods.cancelOrder(id).send({
             from:address,
             gasPrice: gasPrice, // Set the dynamic gas price
-            gas: gasLimit + 100000, // Adding extra gas for safety margin
+            gas: gasLimit + BigInt(100000), // Adding extra gas for safety margin
         });
         console.log(result);
         return result;
