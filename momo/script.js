@@ -233,7 +233,12 @@ async function mintAction( amount )
     try
     {
         const mintPrice = await contract.methods.mintPrice().call();
-        const allowanceResult = await usdtContract.methods.approve(CONTRACT, mintPrice * BigInt(amount)).send({from:address});
+        const payment = mintPrice * BigInt(amount);
+        const currentAllowance = await contract.methods.allowance(address, CONTRACT).call();
+        if (currentAllowance < payment)
+        {
+            const allowanceResult = await usdtContract.methods.approve(CONTRACT, payment - currentAllowance).send({from:address});
+        }
         const result = await contract.methods.mint(address, amount).send({from:address});
         console.log(result);
         return result;
@@ -249,7 +254,11 @@ async function buyAction( id, price )
 {
     try
     {
-        const allowanceResult = await usdtContract.methods.approve(CONTRACT, BigInt(price)).send({from:address});
+        const currentAllowance = await contract.methods.allowance(address, CONTRACT).call();
+        if (currentAllowance < price)
+        {
+            const allowanceResult = await usdtContract.methods.approve(CONTRACT, price - currentAllowance).send({from:address});
+        }
         const result = await contract.methods.executeOrder(BigInt(id)).send({from:address});
         console.log(result);
         return result;
