@@ -240,7 +240,7 @@ async function mintAction( amount )
             const allowanceResult = await usdtContract.methods.approve(CONTRACT, payment - currentAllowance).send({from:address});
         }
 
-        const gasPrice = await web3.eth.getGasPrice(); // Fetch the current gas price dynamically
+        const gasPrice = await window.web3.eth.getGasPrice(); // Fetch the current gas price dynamically
         const gasLimit = await contract.methods.mint(address, amount).estimateGas(); // Estimate gas limit
 
         const result = await contract.methods.mint(address, amount).send({
@@ -270,7 +270,7 @@ async function buyAction( id, price )
         }
 
         
-        const gasPrice = await web3.eth.getGasPrice(); // Fetch the current gas price dynamically
+        const gasPrice = await window.web3.eth.getGasPrice(); // Fetch the current gas price dynamically
         const gasLimit = await contract.methods.mint(address, amount).estimateGas(); // Estimate gas limit
 
         const result = await contract.methods.executeOrder(BigInt(id)).send({
@@ -293,7 +293,7 @@ async function sellAction( id, price )
 {
     try
     {
-        const gasPrice = await web3.eth.getGasPrice(); // Fetch the current gas price dynamically
+        const gasPrice = await window.web3.eth.getGasPrice(); // Fetch the current gas price dynamically
         const gasLimit = await contract.methods.mint(address, amount).estimateGas(); // Estimate gas limit
 
         const result = await contract.methods.createOrder(id, price).send({
