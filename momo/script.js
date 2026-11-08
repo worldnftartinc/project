@@ -82,11 +82,6 @@ async function connect()
     {    
         const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
         window.web3 = new Web3(window.ethereum);
-        // web3 v4 uses the `input` field for contract calldata by default, but
-        // MetaMask (recent versions) rejects unknown keys in eth_sendTransaction
-        // and only accepts `data`. Force `data` at the global config level,
-        // which is what contract .send() actually reads.
-        window.web3.setConfig({ contractDataInputFill: 'data' });
         address = accounts[0];
         const result = await switchChain();
         if (result)
@@ -216,6 +211,12 @@ async function loadContracts()
     contract = new window.web3.eth.Contract(CONTRACT_ABI, CONTRACT);
     const usdtContractAddress = await contract.methods.mintPriceToken().call();
     usdtContract = new window.web3.eth.Contract(USDT_CONTRACT_ABI, usdtContractAddress);
+    // web3@4.2.2 defaults to putting the contract calldata in the `input` field,
+    // but recent MetaMask versions reject unknown keys in eth_sendTransaction and
+    // only accept `data`. Its .send() reads this from the contract's own config,
+    // so it must be set on each contract instance.
+    contract.contractDataInputFill = 'data';
+    usdtContract.contractDataInputFill = 'data';
 }
 
 async function getOrderData()
