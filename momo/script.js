@@ -208,9 +208,9 @@ async function loadGeneralData()
 
 async function loadContracts()
 {
-    contract = new window.web3.eth.Contract(CONTRACT_ABI, CONTRACT);
+    contract = new window.web3.eth.Contract(CONTRACT_ABI, CONTRACT, { dataInputFill: 'data' });
     const usdtContractAddress = await contract.methods.mintPriceToken().call();
-    usdtContract = new window.web3.eth.Contract(USDT_CONTRACT_ABI, usdtContractAddress);
+    usdtContract = new window.web3.eth.Contract(USDT_CONTRACT_ABI, usdtContractAddress, { dataInputFill: 'data' });
 }
 
 async function getOrderData()
